@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import type { CmsAppOptions } from "@/index";
 import CmsLayout from "../routes/layout";
 import CmsDashboardPage from "../routes/page";
 import CmsSettingsPage from "../routes/settings/page";
@@ -15,29 +14,24 @@ function getSlugPath(input: CatchAllParams["slug"]) {
   return input.filter((segment) => segment.length > 0);
 }
 
-type CmsCatchAllPageInput = {
-  params: Promise<CatchAllParams>;
-  options: CmsAppOptions;
-};
-
-export async function CmsCatchAllPage({ params, options }: CmsCatchAllPageInput) {
+export async function CmsCatchAllPage({ params }: { params: Promise<CatchAllParams> }) {
   const { slug } = await params;
   const path = getSlugPath(slug);
 
   let content: ReactNode;
   if (path.length === 0) {
-    content = await CmsDashboardPage(options);
+    content = await CmsDashboardPage();
   } else if (path.length === 1 && path[0] === "settings") {
-    content = await CmsSettingsPage(options);
+    content = await CmsSettingsPage();
   } else if (path.length === 2 && path[0] === "posts" && path[1]) {
     content = await CmsPostEditorPage({
       params: Promise.resolve({ postId: path[1] }),
-    }, options);
+    });
   } else {
     notFound();
   }
 
-  return CmsLayout({ children: content }, options);
+  return CmsLayout({ children: content });
 }
 
 export default CmsCatchAllPage;

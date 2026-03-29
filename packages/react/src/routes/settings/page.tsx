@@ -1,13 +1,9 @@
 import { requireWorkspaceAccess } from "@/lib/cms/auth/guards";
-import type { CmsAppOptions } from "@/index";
 import { getCmsStorage } from "@/lib/cms/storage";
 import { SettingsView } from "./settings-view";
 
-export default async function CmsSettingsPage(options: CmsAppOptions) {
-  const { session, workspace } = await requireWorkspaceAccess(
-    ["admin", "editor", "viewer"],
-    options,
-  );
+export default async function CmsSettingsPage() {
+  const { session, workspace } = await requireWorkspaceAccess(["admin", "editor", "viewer"]);
   const storage = getCmsStorage();
   const [targets, membership] = await Promise.all([
     storage.listPublishTargets(workspace.id),

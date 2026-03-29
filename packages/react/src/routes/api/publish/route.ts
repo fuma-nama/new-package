@@ -1,6 +1,5 @@
 import { jsonError, jsonOkWithSchema } from "@/lib/cms/http";
 import { requireWorkspaceAccess } from "@/lib/cms/auth/guards";
-import type { CmsAppOptions } from "@/index";
 import { publishPostToTarget } from "@/lib/cms/publisher";
 import {
   cmsApiErrorSchema,
@@ -8,9 +7,9 @@ import {
   publishPostBodySchema,
 } from "@/lib/cms/validation";
 
-export async function POST(request: Request, options: CmsAppOptions) {
+export async function POST(request: Request) {
   try {
-    const { session, workspace } = await requireWorkspaceAccess(["admin", "editor"], options);
+    const { session, workspace } = await requireWorkspaceAccess(["admin", "editor"]);
     const rawBody = (await request.json().catch(() => null)) as unknown;
     const parsed = publishPostBodySchema.safeParse(rawBody);
     if (!parsed.success) {

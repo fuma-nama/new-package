@@ -1,7 +1,6 @@
 import { jsonError, jsonOkWithSchema } from "@/lib/cms/http";
 import { getCmsStorage } from "@/lib/cms/storage";
 import { requireWorkspaceAccess } from "@/lib/cms/auth/guards";
-import type { CmsAppOptions } from "@/index";
 import { buildTrashEntries } from "@/lib/cms/trash";
 import {
   cmsApiErrorSchema,
@@ -10,14 +9,10 @@ import {
   updatePostBodySchema,
 } from "@/lib/cms/validation";
 
-export async function GET(
-  _request: Request,
-  context: { params: Promise<{ postId: string }> },
-  options: CmsAppOptions,
-) {
+export async function GET(_request: Request, context: { params: Promise<{ postId: string }> }) {
   try {
     const [{ workspace }, { postId }] = await Promise.all([
-      requireWorkspaceAccess(["admin", "editor", "viewer"], options),
+      requireWorkspaceAccess(["admin", "editor", "viewer"]),
       context.params,
     ]);
     const post = await getCmsStorage().getPostById(postId, workspace.id);
@@ -28,14 +23,10 @@ export async function GET(
   }
 }
 
-export async function PATCH(
-  request: Request,
-  context: { params: Promise<{ postId: string }> },
-  options: CmsAppOptions,
-) {
+export async function PATCH(request: Request, context: { params: Promise<{ postId: string }> }) {
   try {
     const [{ session, workspace }, { postId }] = await Promise.all([
-      requireWorkspaceAccess(["admin", "editor"], options),
+      requireWorkspaceAccess(["admin", "editor"]),
       context.params,
     ]);
     const rawBody = (await request.json().catch(() => null)) as unknown;
@@ -74,14 +65,10 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  _request: Request,
-  context: { params: Promise<{ postId: string }> },
-  options: CmsAppOptions,
-) {
+export async function DELETE(_request: Request, context: { params: Promise<{ postId: string }> }) {
   try {
     const [{ session, workspace }, { postId }] = await Promise.all([
-      requireWorkspaceAccess(["admin", "editor"], options),
+      requireWorkspaceAccess(["admin", "editor"]),
       context.params,
     ]);
     const storage = getCmsStorage();

@@ -1,13 +1,9 @@
-import { AuthContext, CmsAuthError, CmsAuthProvider, CmsSession } from "@/lib/cms/auth/types";
-import type { CmsAppOptions } from "@/index";
+import { assertRole, requireSession } from "@/lib/cms/auth/types";
+import { getCmsAuthProvider } from "@/lib/cms/auth/next-auth-provider";
 import { ensureDefaultWorkspace, ensureWorkspaceAdmin } from "@/lib/cms/service";
-import type { CmsRole } from "../schema/domain-schema";
 
-export async function requireWorkspaceAccess(
-  allowedRoles: Array<"admin" | "editor" | "viewer">,
-  options: CmsAppOptions,
-) {
-  const provider = options.authProvider;
+export async function requireWorkspaceAccess(allowedRoles: Array<"admin" | "editor" | "viewer">) {
+  const provider = getCmsAuthProvider();
   const session = await requireSession(provider);
   const workspace = await ensureDefaultWorkspace();
 
@@ -17,44 +13,4 @@ export async function requireWorkspaceAccess(
   await assertRole(provider, session, { workspaceId: workspace.id }, allowedRoles);
 
   return { provider, session, workspace };
-}
-
-export async function requireSession(provider: CmsAuthProvider): Promise<CmsSession> {
-  const session = await provider.getSession();
-  if (!session) {
-    throw new CmsAuthError("Authentication required", 401);
-  }
-  return session;
-}
-
-export async function assertRole(
-  provider: CmsAuthProvider,
-  session: CmsSession,
-  context: AuthContext,
-  allowedRoles: CmsRole[],
-) {
-  const roles = await provider.getUserRoles(session.user.id, context);
-  const allowed = roles.some((role) => allowedRoles.includes(role));
-  if (!allowed) {
-    throw new CmsAuthError("Insufficient permissions", 403);
-  }
-  return roles;
-}
-
-export async function canPublish(
-  provider: CmsAuthProvider,
-  session: CmsSession,
-  context: AuthContext,
-) {
-  const roles = await provider.getUserRoles(session.user.id, context);
-  return roles.includes("admin") || roles.includes("editor");
-}
-
-export async function canEdit(
-  provider: CmsAuthProvider,
-  session: CmsSession,
-  context: AuthContext,
-) {
-  const roles = await provider.getUserRoles(session.user.id, context);
-  return roles.includes("admin") || roles.includes("editor");
 }

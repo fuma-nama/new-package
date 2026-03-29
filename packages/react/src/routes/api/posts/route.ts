@@ -1,7 +1,6 @@
 import { jsonError, jsonOkWithSchema } from "@/lib/cms/http";
 import { getCmsStorage } from "@/lib/cms/storage";
 import { requireWorkspaceAccess } from "@/lib/cms/auth/guards";
-import type { CmsAppOptions } from "@/index";
 import {
   cmsApiErrorSchema,
   createPostBodySchema,
@@ -9,9 +8,9 @@ import {
   postResponseSchema,
 } from "@/lib/cms/validation";
 
-export async function GET(options: CmsAppOptions) {
+export async function GET() {
   try {
-    const { workspace } = await requireWorkspaceAccess(["admin", "editor", "viewer"], options);
+    const { workspace } = await requireWorkspaceAccess(["admin", "editor", "viewer"]);
     const posts = await getCmsStorage().listWorkspacePosts(workspace.id);
     return jsonOkWithSchema(listPostsResponseSchema, { posts });
   } catch (error) {
@@ -19,9 +18,9 @@ export async function GET(options: CmsAppOptions) {
   }
 }
 
-export async function POST(request: Request, options: CmsAppOptions) {
+export async function POST(request: Request) {
   try {
-    const { session, workspace } = await requireWorkspaceAccess(["admin", "editor"], options);
+    const { session, workspace } = await requireWorkspaceAccess(["admin", "editor"]);
     const rawBody = (await request.json().catch(() => null)) as unknown;
     const parsed = createPostBodySchema.safeParse(rawBody);
     if (!parsed.success) {

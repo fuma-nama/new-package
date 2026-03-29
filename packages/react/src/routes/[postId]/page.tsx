@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireWorkspaceAccess } from "@/lib/cms/auth/guards";
-import type { CmsAppOptions } from "@/index";
 import { getCmsStorage } from "@/lib/cms/storage";
 import { Editor } from "./editor";
 import { cn } from "@/lib/cn";
@@ -11,9 +10,9 @@ export default async function CmsPostEditorPage({
   params,
 }: {
   params: Promise<{ postId: string }>;
-}, options: CmsAppOptions) {
+}) {
   const [{ session, workspace }, { postId }] = await Promise.all([
-    requireWorkspaceAccess(["admin", "editor", "viewer"], options),
+    requireWorkspaceAccess(["admin", "editor", "viewer"]),
     params,
   ]);
 
