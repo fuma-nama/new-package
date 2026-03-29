@@ -1,5 +1,5 @@
 {
-  "name": "new-package",
+  "name": "fuma-editor",
   "private": true,
   "scripts": {
     "build": "turbo run build",

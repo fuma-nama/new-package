@@ -1,0 +1,29 @@
+/* should be imported by the consumer in their Tailwind CSS file */
+
+@theme {
+  --color-fe-background: oklch(0.13 0.006 260);
+  --color-fe-foreground: oklch(0.95 0.004 260);
+  --color-fe-card: oklch(0.185 0.008 260);
+  --color-fe-card-foreground: oklch(0.95 0.004 260);
+  --color-fe-popover: oklch(0.19 0.009 260);
+  --color-fe-popover-foreground: oklch(0.95 0.004 260);
+  --color-fe-primary: oklch(0.9 0.006 260);
+  --color-fe-primary-foreground: oklch(0.2 0.008 260);
+  --color-fe-secondary: oklch(0.235 0.01 260);
+  --color-fe-secondary-foreground: oklch(0.94 0.004 260);
+  --color-fe-muted: oklch(0.21 0.009 260);
+  --color-fe-muted-foreground: oklch(0.72 0.01 260);
+  --color-fe-accent: oklch(0.275 0.012 260);
+  --color-fe-accent-foreground: oklch(0.95 0.004 260);
+  --color-fe-destructive: oklch(0.66 0.18 25);
+  --color-fe-destructive-foreground: oklch(0.96 0.01 25);
+  --color-fe-border: oklch(0.3 0.01 260);
+  --color-fe-input: oklch(0.175 0.008 260);
+  --color-fe-ring: oklch(0.62 0.012 260);
+  --color-fe-success: oklch(0.74 0.09 155);
+  --color-fe-warning: oklch(0.8 0.11 86);
+  --color-fe-info: oklch(0.72 0.08 248);
+
+  --radius-fe: 0.65rem;
+  --radius-fe-lg: 0.9rem;
+}
