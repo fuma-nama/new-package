@@ -1,34 +1,34 @@
 {
   "name": "my-package",
-  "description": "My Package",
   "version": "0.0.0",
-  "repository": "github:fuma-nama/my-package",
-  "author": "Fuma Nama",
+  "description": "My Package",
   "license": "MIT",
-  "type": "module",
+  "author": "Fuma Nama",
+  "repository": "github:fuma-nama/my-package",
   "files": [
     "dist"
   ],
+  "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "check-types": "tsc --noEmit",
-    "build": "tsup",
-    "dev": "tsup --watch"
+    "types:check": "tsc --noEmit",
+    "build": "tsdown",
+    "dev": "tsdown --watch"
+  },
+  "dependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^24.10.0",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2",
-    "tsup": "^8.5.0",
-    "typescript": "5.9.3"
-  },
-  "dependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
-  },
-  "publishConfig": {
-    "access": "public"
+    "@types/node": "^25.5.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "tsdown": "^0.21.7",
+    "typescript": "6.0.2"
   }
 }
