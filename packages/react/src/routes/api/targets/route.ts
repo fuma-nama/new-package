@@ -1,6 +1,7 @@
 import { jsonError, jsonOkWithSchema } from "@/lib/cms/http";
 import { getCmsStorage } from "@/lib/cms/storage";
 import { requireWorkspaceAccess } from "@/lib/cms/auth/guards";
+import type { CmsAppOptions } from "@/index";
 import {
   cmsApiErrorSchema,
   createTargetBodySchema,
@@ -8,9 +9,9 @@ import {
   targetResponseSchema,
 } from "@/lib/cms/validation";
 
-export async function GET() {
+export async function GET(options: CmsAppOptions) {
   try {
-    const { workspace } = await requireWorkspaceAccess(["admin", "editor", "viewer"]);
+    const { workspace } = await requireWorkspaceAccess(["admin", "editor", "viewer"], options);
     const targets = await getCmsStorage().listPublishTargets(workspace.id);
     return jsonOkWithSchema(listTargetsResponseSchema, { targets });
   } catch (error) {
@@ -18,9 +19,9 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: Request, options: CmsAppOptions) {
   try {
-    const { workspace } = await requireWorkspaceAccess(["admin"]);
+    const { workspace } = await requireWorkspaceAccess(["admin"], options);
     const rawBody = (await request.json().catch(() => null)) as unknown;
     const parsed = createTargetBodySchema.safeParse(rawBody);
     if (!parsed.success) {

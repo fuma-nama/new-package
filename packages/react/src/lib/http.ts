@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { CmsAuthError } from "@/lib/cms/auth";
+import { CmsAuthError } from "@/lib/cms/auth/types";
 
 export function jsonOk<T>(data: T, status = 200) {
   return NextResponse.json(data, { status });

@@ -1,12 +1,19 @@
 import { createCollabToken } from "@/lib/cms/collab-token";
 import { requireWorkspaceAccess } from "@/lib/cms/auth/guards";
+import type { CmsAppOptions } from "@/index";
 import { getCmsStorage } from "@/lib/cms/storage";
 import { CollabProvider } from "./collab-context";
 import { DataLayer } from "@/data/cms-data-layer";
 import { LayoutShell } from "./layout-shell";
 
-export default async function CmsLayout({ children }: { children: React.ReactNode }) {
-  const { session, workspace } = await requireWorkspaceAccess(["admin", "editor", "viewer"]);
+export default async function CmsLayout(
+  { children }: { children: React.ReactNode },
+  options: CmsAppOptions,
+) {
+  const { session, workspace } = await requireWorkspaceAccess(
+    ["admin", "editor", "viewer"],
+    options,
+  );
   const storage = getCmsStorage();
   const posts = await storage.listWorkspacePosts(workspace.id);
   const membership = await storage.getWorkspaceMember(workspace.id, session.user.id);

@@ -1,11 +1,16 @@
 import { jsonError, jsonOkWithSchema } from "@/lib/cms/http";
 import { getCmsStorage } from "@/lib/cms/storage";
 import { requireWorkspaceAccess } from "@/lib/cms/auth/guards";
+import type { CmsAppOptions } from "@/index";
 import { realtimeDocResponseSchema } from "@/lib/cms/validation";
 
-export async function GET(_request: Request, context: { params: Promise<{ docName: string }> }) {
+export async function GET(
+  _request: Request,
+  context: { params: Promise<{ docName: string }> },
+  options: CmsAppOptions,
+) {
   try {
-    await requireWorkspaceAccess(["admin", "editor", "viewer"]);
+    await requireWorkspaceAccess(["admin", "editor", "viewer"], options);
     const { docName } = await context.params;
     const doc = await getCmsStorage().getRealtimeDoc(docName);
     if (!doc) return jsonOkWithSchema(realtimeDocResponseSchema, { doc: null });

@@ -1,11 +1,31 @@
-import { getConfiguredAuthSession } from "@/auth";
+import { headers } from "next/headers";
 import type { CmsAuthProvider, CmsSession } from "@/lib/cms/auth/types";
 import type { CmsRole } from "@/lib/cms/schema/domain-schema";
 import { getCmsStorage } from "@/lib/cms/storage";
 
-export class NextAuthProvider implements CmsAuthProvider {
+interface BetterAuthSession {
+  user?: {
+    id?: string;
+    email?: string | null;
+    name?: string | null;
+  } | null;
+}
+
+export interface BetterAuthLike {
+  api: {
+    getSession: (input: { headers: HeadersInit }) => Promise<BetterAuthSession | null>;
+  };
+}
+
+export class BetterAuthProvider implements CmsAuthProvider {
+  constructor(private readonly auth: BetterAuthLike | null = null) {}
+
   async getSession(): Promise<CmsSession | null> {
-    const session = await getConfiguredAuthSession();
+    if (!this.auth) return null;
+
+    const session = await this.auth.api.getSession({
+      headers: await headers(),
+    });
     const userId = session?.user?.id;
     if (!session?.user || !userId) {
       return null;
@@ -24,12 +44,4 @@ export class NextAuthProvider implements CmsAuthProvider {
     const membership = await getCmsStorage().getWorkspaceMember(context.workspaceId, userId);
     return membership ? [membership.role] : [];
   }
-}
-
-let providerSingleton: NextAuthProvider | null = null;
-
-export function getCmsAuthProvider() {
-  if (providerSingleton) return providerSingleton;
-  providerSingleton = new NextAuthProvider();
-  return providerSingleton;
 }
