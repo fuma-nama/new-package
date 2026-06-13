@@ -12,14 +12,14 @@
     "release": "changeset publish"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.30.0",
-    "oxfmt": "^0.42.0",
-    "oxlint": "^1.57.0",
-    "turbo": "^2.8.21",
-    "typescript": "6.0.2"
+    "@changesets/cli": "^2.31.0",
+    "oxfmt": "^0.54.0",
+    "oxlint": "^1.69.0",
+    "turbo": "^2.9.18",
+    "typescript": "6.0.3"
   },
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "pnpm@9.6.0"
+  "packageManager": "pnpm@11.6.0"
 }
