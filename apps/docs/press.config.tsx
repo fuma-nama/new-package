@@ -1,15 +1,25 @@
+import { defineDocs } from "fumadocs-mdx/macro";
 import { defineConfig } from "fumapress";
 import { fumadocsMdx } from "fumapress/adapters/mdx";
-import { flexsearchPlugin } from "fumapress/plugins/flexsearch";
-import { llmsPlugin } from "fumapress/plugins/llms.txt";
-import { takumiPlugin } from "fumapress/plugins/takumi";
-import { docs } from "./.source/server";
+import { metaSchema, pageSchema } from "fumapress/adapters/mdx/schema";
+
+const docs = defineDocs({
+  dir: "content",
+  docs: {
+    async: true,
+    schema: pageSchema,
+    postprocess: {
+      includeProcessedMarkdown: true,
+    },
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
 
 export default defineConfig({
   content: docs.toFumadocsSource(),
   site: {
     name: "Fumapress",
   },
-})
-  .plugins(flexsearchPlugin(), llmsPlugin(), takumiPlugin())
-  .adapters(fumadocsMdx());
+}).adapters(fumadocsMdx());

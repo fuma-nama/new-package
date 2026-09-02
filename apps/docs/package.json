@@ -4,28 +4,27 @@
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "dev": "waku dev",
-    "build": "waku build",
-    "start": "waku start",
-    "types:check": "fumadocs-mdx && tsc --noEmit"
+    "dev": "fumapress dev",
+    "build": "fumapress build",
+    "start": "fumapress start",
+    "types:check": "tsc --noEmit"
   },
   "dependencies": {
-    "fumadocs-core": "^16.10.2",
-    "fumadocs-mdx": "^15.0.12",
-    "fumadocs-ui": "^16.10.2",
-    "fumapress": "^0.6.1",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "react-server-dom-webpack": "^19.2.7",
-    "waku": "1.0.0-beta.3"
+    "fumadocs-core": "^16.15.4",
+    "fumadocs-mdx": "^15.4.0",
+    "fumadocs-ui": "^16.15.4",
+    "fumapress": "^1.2.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.3",
     "@types/mdx": "^2.0.14",
-    "@types/node": "^25.9.3",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "tailwindcss": "^4.3.0",
-    "typescript": "^6.0.3"
+    "@types/node": "^26.4.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
   }
 }

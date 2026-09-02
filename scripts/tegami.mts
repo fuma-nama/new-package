@@ -26,10 +26,8 @@ const paper = tegami({
   plugins: [
     github({
       repo: "fuma-nama/new-package",
-      cli: {
-        versionPr: {
-          base: "dev",
-        },
+      versionPr: {
+        base: "dev",
       },
     }),
     buildOnPublish(),
